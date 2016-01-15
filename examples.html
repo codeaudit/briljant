@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Welcome to Briljant framework’s documentation! &mdash; Briljant 0.1 documentation</title>
+    <title>Array &mdash; Briljant 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -24,8 +24,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="Briljant 0.1 documentation" href="#" />
-    <link rel="next" title="Tutorial" href="tutorial.html" /> 
+    <link rel="top" title="Briljant 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Tutorial" href="tutorial.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,8 +36,8 @@
              accesskey="I">index</a></li>
         <li class="right" >
           <a href="tutorial.html" title="Tutorial"
-             accesskey="N">next</a> |</li>
-        <li><a href="#">Briljant 0.1 documentation</a> &raquo;</li> 
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Briljant 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -46,31 +46,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="welcome-to-briljant-framework-s-documentation">
-<h1>Welcome to Briljant framework&#8217;s documentation!<a class="headerlink" href="#welcome-to-briljant-framework-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>This is the user/developer documentation for <strong>briljant</strong> (Swedish
-spelling of <em>brilliant</em>), an open source framework for efficient and
-simple scientific computing in Java.</p>
-<p>It contains among other things:</p>
-<ul class="simple">
-<li>a powerful and efficient n-dimensional array abstraction with native
-<em>BLAS</em> and <em>LAPACK</em> sub-routines <a class="footnote-reference" href="#id2" id="id1">[1]</a>.</li>
-<li>a powerful <tt class="docutils literal"><span class="pre">r</span></tt>-like <tt class="docutils literal"><span class="pre">DataFrame</span></tt>, <tt class="docutils literal"><span class="pre">Vector</span></tt> and List abstractions</li>
-<li>efficient, accurate and powerful machine learning procedures for
-<em>conformal prediction</em>, <em>ensemble learning</em>, and <em>data series
-learning</em>.</li>
-</ul>
-<table class="docutils footnote" frame="void" id="id2" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>Future versions are expected to also include GPU accelerated routines</td></tr>
-</tbody>
-</table>
-<p>Table of contents</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">Tutorial</a></li>
-</ul>
+  <div class="section" id="array">
+<h1>Array<a class="headerlink" href="#array" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="assign">
+<h3>Assign<a class="headerlink" href="#assign" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DoubleArray</span> <span class="n">arr</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">newVector</span><span class="o">(</span><span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">});</span>
+<span class="n">DoubleArray</span> <span class="n">zero</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">newDoubleArray</span><span class="o">(</span><span class="mi">4</span><span class="o">);</span>
+<span class="n">zero</span><span class="o">.</span><span class="na">assign</span><span class="o">(</span><span class="n">arr</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>produces</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">array</span><span class="p">([</span><span class="mf">1.000</span><span class="p">,</span> <span class="mf">2.000</span><span class="p">,</span> <span class="mf">3.000</span><span class="p">,</span> <span class="mf">4.000</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
@@ -80,12 +71,23 @@ learning</em>.</li>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Next topic</h4>
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Array</a><ul>
+<li><a class="reference internal" href="#examples">Examples</a><ul>
+<li><a class="reference internal" href="#assign">Assign</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
   <p class="topless"><a href="tutorial.html"
-                        title="next chapter">Tutorial</a></p>
+                        title="previous chapter">Tutorial</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/index.txt"
+    <li><a href="_sources/examples.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -113,8 +115,8 @@ learning</em>.</li>
              >index</a></li>
         <li class="right" >
           <a href="tutorial.html" title="Tutorial"
-             >next</a> |</li>
-        <li><a href="#">Briljant 0.1 documentation</a> &raquo;</li> 
+             >previous</a> |</li>
+        <li><a href="index.html">Briljant 0.1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

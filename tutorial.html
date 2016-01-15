@@ -1,0 +1,1076 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; Briljant 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Briljant 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Welcome to Briljant framework’s documentation!" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Briljant framework’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Briljant 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="installation">
+<h3>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h3>
+<p>Building from source</p>
+</div>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Briljants main abstractions are the (nd)-array, <tt class="docutils literal"><span class="pre">DataFrame</span></tt> and
+<tt class="docutils literal"><span class="pre">Vector</span></tt>.</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">DataFrame</span></tt> is an immutable column wise heterogeneous data
+container and provides the essential tools for working with
+statistical data in Java. In particular, <tt class="docutils literal"><span class="pre">DataFrame</span></tt> provides<ul>
+<li><tt class="docutils literal"><span class="pre">NA</span></tt>, i.e. missing (or non-existing) values, distinct from
+e.g., <tt class="docutils literal"><span class="pre">NaN</span></tt>.</li>
+<li>Operations for working with tabular data, similar to those found
+in spreadsheets and databases.</li>
+<li>Different implementations with varying performance
+characteristics.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">Vector</span></tt> is an immutable homogeneous data container. It supports
+reference types such as <tt class="docutils literal"><span class="pre">String</span></tt> (i.e. categorical values),
+<tt class="docutils literal"><span class="pre">Double</span></tt> (i.e. double precision floating point numbers),
+<tt class="docutils literal"><span class="pre">Binary</span></tt> (i.e. true/false/NA), <tt class="docutils literal"><span class="pre">Integer</span></tt> and <tt class="docutils literal"><span class="pre">Complex</span></tt>
+numbers. All providing a unique <tt class="docutils literal"><span class="pre">NA</span></tt> representation.</li>
+<li><tt class="docutils literal"><span class="pre">Array&lt;T&gt;</span></tt>, <tt class="docutils literal"><span class="pre">DoubleArray</span></tt>, <tt class="docutils literal"><span class="pre">IntArray</span></tt>, <tt class="docutils literal"><span class="pre">LongArray</span></tt>,
+<tt class="docutils literal"><span class="pre">ComplexArray</span></tt> and <tt class="docutils literal"><span class="pre">BitArray</span></tt> are d-dimensional data containers
+of, reference and numerical (primitive) elements supporting a
+multitude of linear algebra operations.</li>
+</ul>
+<p>To get a first taste of the Briljant framework, we&#8217;ll start by
+exploring a few of its main primitives. The first primitive we
+introduce is the <tt class="docutils literal"><span class="pre">Vector</span></tt> which, as explained above, is a
+homogeneous <tt class="docutils literal"><span class="pre">NA</span></tt> supporting container type. Homogeneous mean that a
+vector only contain values of one specific type; and <tt class="docutils literal"><span class="pre">NA</span></tt> supporting
+that it is aware of missing values. For example, suppose we are given
+a list of employees and want to know the frequency of each name. The
+following code (assuming that Briljant is correctly installed and that
+the correct packages are imported) creates a (<tt class="docutils literal"><span class="pre">String</span></tt>) vector
+consisting of the names <em>Bob</em>, <em>Mary</em>, <em>Lisa</em>, etc.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">employees</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;Bob&quot;</span><span class="o">,</span> <span class="s">&quot;Mary&quot;</span><span class="o">,</span> <span class="s">&quot;Lisa&quot;</span><span class="o">,</span> <span class="s">&quot;John&quot;</span><span class="o">,</span> <span class="s">&quot;Lisa&quot;</span><span class="o">,</span> <span class="s">&quot;Mary&quot;</span><span class="o">,</span> <span class="s">&quot;Anna&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>If we print the vector to the screen (e.g., using
+<tt class="docutils literal"><span class="pre">System.out.println(employees)</span></tt>), we&#8217;ll see something like this.</p>
+<div class="highlight-python"><div class="highlight"><pre>0  Bob
+1  Mary
+2  Lisa
+3  John
+4  Lisa
+5  Mary
+6  Anna
+type: string
+</pre></div>
+</div>
+<p>Now, suppose we are interested in the frequency of each name, the
+traditional <cite>Java</cite> way would be something like this</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;</span> <span class="n">counts</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+<span class="k">for</span><span class="o">(</span><span class="n">String</span> <span class="n">employee</span> <span class="o">:</span> <span class="n">employees</span><span class="o">)</span> <span class="o">{</span>
+   <span class="n">Integer</span> <span class="n">count</span> <span class="o">=</span> <span class="n">counts</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">employee</span><span class="o">);</span>
+   <span class="k">if</span><span class="o">(</span><span class="n">counts</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+     <span class="n">counts</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">employee</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+   <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+     <span class="n">counts</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">employee</span><span class="o">,</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">count</span><span class="o">);</span>
+   <span class="o">}</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>While this code is fine in many circumstances, would it not be nice to
+have a data-structure that supports such common statistical methods
+directly and instead say:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">counts</span> <span class="o">=</span> <span class="n">employees</span><span class="o">.</span><span class="na">valueCounts</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>Again, printing the vector (<tt class="docutils literal"><span class="pre">counts</span></tt> in this case) produces something like this</p>
+<div class="highlight-python"><div class="highlight"><pre>Bob   1
+John  1
+Anna  1
+Lisa  2
+Mary  2
+type: int
+</pre></div>
+</div>
+<p>The first thing you might notice is that the first &#8220;column&#8221; have
+changed from the numbers <tt class="docutils literal"><span class="pre">0..size()</span></tt> to instead be the names of the
+employees. This is because in Briljant, vectors are <em>indexed</em> which
+essentially means that they are somewhat like a combination of a
+<tt class="docutils literal"><span class="pre">Map</span></tt> and a <tt class="docutils literal"><span class="pre">List</span></tt>. To get the count of <tt class="docutils literal"><span class="pre">Mary</span></tt> we simply say
+<tt class="docutils literal"><span class="pre">counts.getAsInt(&quot;Mary&quot;);</span></tt> which will give us the answer <tt class="docutils literal"><span class="pre">2</span></tt>. To
+treat the vector as a list and, hence, access values based on their
+location we can say <tt class="docutils literal"><span class="pre">counts.loc().getAsInt(0)</span></tt> which will also
+return <tt class="docutils literal"><span class="pre">2</span></tt>.</p>
+<p>In many cases <tt class="docutils literal"><span class="pre">Vectors</span></tt> will suffice, e.g., when storing the
+evolution of stock prices</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">spb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="n">spb</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2014</span><span class="o">,</span> <span class="n">Month</span><span class="o">.</span><span class="na">JANUARY</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">30</span><span class="o">),</span> <span class="mi">100</span><span class="o">);</span>
+<span class="n">spb</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2014</span><span class="o">,</span> <span class="n">Month</span><span class="o">.</span><span class="na">JANUARY</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">31</span><span class="o">),</span> <span class="mi">200</span><span class="o">);</span>
+<span class="c1">// ....</span>
+<span class="n">spb</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">LocalDateTime</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2014</span><span class="o">,</span> <span class="n">Month</span><span class="o">.</span><span class="na">JANUARY</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">00</span><span class="o">),</span> <span class="mi">199</span><span class="o">);</span>
+<span class="n">Vector</span> <span class="n">stockPrices</span> <span class="o">=</span> <span class="n">spb</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>or the price of products</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">pp</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="n">pp</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;iPad&quot;</span><span class="o">,</span> <span class="mi">200</span><span class="o">);</span>
+<span class="n">pp</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;iPhone&quot;</span><span class="o">,</span> <span class="mi">300</span><span class="o">);</span>
+<span class="c1">// ...</span>
+<span class="n">pp</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;Macbook Pro&quot;</span><span class="o">,</span> <span class="mi">3000</span><span class="o">);</span>
+<span class="n">Vector</span> <span class="n">prices</span> <span class="o">=</span> <span class="n">pp</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>But what if we want to track the price, size and number of units in
+stock? Well, in those circumstances a common approach is to create a
+spreadsheet or a <tt class="docutils literal"><span class="pre">DataFrame</span></tt>. For example,</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DataFrame</span><span class="o">.</span><span class="na">Builder</span> <span class="n">productBuilder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MixedDataFrame</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="n">productBuilder</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;Price&quot;</span><span class="o">,</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mf">200.0</span><span class="o">,</span> <span class="mf">300.0</span><span class="o">,</span> <span class="mf">3000.0</span><span class="o">));</span>
+<span class="n">productBuilder</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;Size&quot;</span><span class="o">,</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">150</span><span class="o">,</span> <span class="mi">250</span><span class="o">,</span> <span class="mi">2000</span><span class="o">));</span>
+<span class="n">productBuilder</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;UnitsInStock&quot;</span><span class="o">,</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">10</span><span class="o">));</span>
+<span class="n">productBuilder</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="s">&quot;Name&quot;</span><span class="o">,</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;iPad&quot;</span><span class="o">,</span> <span class="s">&quot;iPhone&quot;</span><span class="o">,</span> <span class="s">&quot;Macbook Pro&quot;</span><span class="o">));</span>
+
+<span class="n">DataFrame</span> <span class="n">products</span> <span class="o">=</span> <span class="n">productBuilder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>will create a data frame with four columns (&#8220;Price&#8221;, &#8220;Size&#8221;,
+&#8220;UnitsInStock&#8221;, &#8220;Name&#8221;) and 3 rows. Again, printing the data frame
+produces</p>
+<div class="highlight-python"><div class="highlight"><pre>   Price   Size  UnitsInStock  Name
+0  200.0   150   10            iPad
+1  300.0   250   NA            iPhone
+2  3000.0  2000  10            Macbook Pro
+
+[3 rows x 4 columns]
+</pre></div>
+</div>
+<p>In the output, the first row of the output denotes the <em>column index</em>
+and the first column denotes the <em>record index</em>. Using these indicies,
+one can get a <strong>record</strong> (i.e. a row), a <strong>column</strong> or a
+<strong>value</strong>. Records are retrived using the
+<tt class="docutils literal"><span class="pre">DataFrame#getRecord(Object)</span></tt>-method, columns by the
+<tt class="docutils literal"><span class="pre">DataFrame#get(Object)</span></tt> and values by
+<tt class="docutils literal"><span class="pre">DataFrame#get(Class,Object,Object)</span></tt>. For example,</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">products</span><span class="o">.</span><span class="na">getRecord</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>produces</p>
+<div class="highlight-python"><div class="highlight"><pre>Price         200.0
+Size          150
+UnitsInStock  10
+Name          iPad
+</pre></div>
+</div>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">products</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">&quot;Price&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>produces</p>
+<div class="highlight-python"><div class="highlight"><pre>0  200.0
+1  300.0
+2  3000.0
+</pre></div>
+</div>
+<p>and finally, <tt class="docutils literal"><span class="pre">products.getAsDouble(0,</span> <span class="pre">&quot;Price&quot;)</span></tt> returns
+<tt class="docutils literal"><span class="pre">200.0</span></tt>. Since every product is unique (a requirement for a valid
+index), we can <em>re-index</em> our data frame on the <tt class="docutils literal"><span class="pre">Name</span></tt>-column. We do
+this with the <tt class="docutils literal"><span class="pre">DataFrame#indexOn(Object)</span></tt></p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">products</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="na">indexOn</span><span class="o">(</span><span class="s">&quot;Name&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>will create a new data frame with the column &#8220;Name&#8221; removed and made
+the <strong>record index</strong>, producing.</p>
+<div class="highlight-python"><div class="highlight"><pre>             Price   Size  UnitsInStock
+iPad         200.0   150   10
+iPhone       300.0   250   NA
+Macbook Pro  3000.0  2000  10
+
+[3 rows x 3 columns]
+</pre></div>
+</div>
+<p>Now we can get the price of an <em>iPad</em> by simply saying
+<tt class="docutils literal"><span class="pre">products.getAsDouble(&quot;iPad&quot;,</span> <span class="pre">&quot;Price&quot;)</span></tt> and the entire <em>iPad</em>
+product by saying <tt class="docutils literal"><span class="pre">products.getRecord(&quot;iPad&quot;)</span></tt>. While impressive
+(/s), the major benefits of data frames are the ability to
+<em>aggregate</em>, <em>group</em> and <em>combine</em> them to form new data frames. For
+example, we can compute the mean price and number of items in stock
+for products with <tt class="docutils literal"><span class="pre">siz</span> <span class="pre">&lt;</span> <span class="pre">200</span></tt> and products with size <tt class="docutils literal"><span class="pre">size</span> <span class="pre">&gt;=</span> <span class="pre">200</span></tt>:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">products</span><span class="o">.</span><span class="na">groupBy</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="s">&quot;Size&quot;</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">v</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="o">)</span>
+        <span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nl">Vector:</span><span class="o">:</span><span class="n">mean</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>which will produce</p>
+<div class="highlight-python"><div class="highlight"><pre>       Price     UnitsInStock  Name
+false  200.000   10.000        NA
+true   1650.000  10.000        NA
+
+[2 rows x 3 columns]
+</pre></div>
+</div>
+<p>Note that <tt class="docutils literal"><span class="pre">Vector::mean</span></tt> is a function and ignores <cite>NA</cite>-values which
+is why the mean for <tt class="docutils literal"><span class="pre">UnitsInStock</span></tt> is <tt class="docutils literal"><span class="pre">10</span></tt>; also note that for
+non-numerical vectors <tt class="docutils literal"><span class="pre">Vector#mean</span></tt> is undefined and returns <tt class="docutils literal"><span class="pre">NA</span></tt>
+which is why the mean of the <tt class="docutils literal"><span class="pre">Name</span></tt>-column is <tt class="docutils literal"><span class="pre">NA</span></tt>.</p>
+<div class="section" id="the-array">
+<h3>The array<a class="headerlink" href="#the-array" title="Permalink to this headline">¶</a></h3>
+<p>There are several ways to create matrices, of which most are implemented
+in the <tt class="docutils literal"><span class="pre">org.briljantframework.array.Arrays</span></tt> class. For example, matrices can be
+created from one and two dimensional arrays. The factory methods in
+<tt class="docutils literal"><span class="pre">Arrays</span></tt> is delegated to an instance of
+<tt class="docutils literal"><span class="pre">org.briljantframework.matrix.api.MatrixFactory</span></tt> and decided based on
+the <tt class="docutils literal"><span class="pre">MatrixBackend</span></tt>. For details, please refer to the discussion on
+<a class="reference external" href="reference/matrix.md#backend">MatrixBackends</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">In the examples below, <cite>import
+org.briljantframework.array.*</cite> and <cite>import static
+org.briljantframework.array.Arrays.*</cite> are implicit</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The choice of array implementation returned by <cite>Arrays</cite> is
+decided by the <cite>org.briljantframework.array.api.ArrayBackend</cite>. The
+<cite>ArrayBackend</cite> is responsible for creating arrays and for
+computing BLAS and linear algebra routines.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Briljant implements five difference array types for some
+common domains including the primitive types: <cite>int</cite>, <cite>double</cite>,
+<cite>long</cite> and <cite>boolean</cite> and for <cite>Complex</cite> numbers. There is also a
+generic array <cite>Array&lt;T&gt;</cite> for arbitary objects, e.g., <cite>String</cite>.</p>
+</div>
+<div class="section" id="creation">
+<h4>Creation<a class="headerlink" href="#creation" title="Permalink to this headline">¶</a></h4>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DoubleArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">2</span><span class="o">).</span><span class="na">asDouble</span><span class="o">();</span>
+<span class="n">DoubleArray</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">linspace</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">50</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">);</span>
+<span class="n">DoubleArray</span> <span class="n">c</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">linspace</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">PI</span><span class="o">,</span> <span class="mi">100</span><span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="nl">Math:</span><span class="o">:</span><span class="n">sqrt</span><span class="o">);</span>
+<span class="n">DoubleArray</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">newDoubleMatrix</span><span class="o">(</span><span class="k">new</span> <span class="kt">double</span><span class="o">[][]{</span>
+        <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">},</span>
+        <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">6</span><span class="o">},</span>
+        <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">2</span><span class="o">,</span> <span class="mi">7</span><span class="o">},</span>
+        <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">3</span><span class="o">,</span> <span class="mi">8</span><span class="o">},</span>
+        <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">4</span><span class="o">,</span> <span class="mi">9</span><span class="o">}});</span>
+
+<span class="n">DoubleArray</span> <span class="n">e</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">5</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+<span class="n">Array</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">f</span> <span class="o">=</span> <span class="n">Array</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;a&quot;</span><span class="o">,</span> <span class="s">&quot;b&quot;</span><span class="o">,</span> <span class="s">&quot;c&quot;</span><span class="o">,</span> <span class="s">&quot;d&quot;</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">);</span>
+</pre></div>
+</div>
+<p>In the example above, <tt class="docutils literal"><span class="pre">a</span></tt> is created using a range of numbers and
+reshaping it to a 2d-array with 5 rows and 2 columns; <tt class="docutils literal"><span class="pre">b</span></tt> is created,
+rather verbosely, using a multi-dimensional array. Finally, <tt class="docutils literal"><span class="pre">c</span></tt> is
+created using a flat array and reshaped to a 5-by-2 array. One thing to
+note is that Briljant arrays are represented in column-major order,
+i.e., the first dimension varies faster.</p>
+<p>In essences, <tt class="docutils literal"><span class="pre">Arrays#range(int,</span> <span class="pre">int)</span></tt> creates a 1d-array (i.e. a vector)
+with values between <tt class="docutils literal"><span class="pre">start</span></tt> and <tt class="docutils literal"><span class="pre">end</span></tt> with <tt class="docutils literal"><span class="pre">1</span></tt> increments. The
+3-arity version, <tt class="docutils literal"><span class="pre">Arrays#range(int,</span> <span class="pre">int,</span> <span class="pre">int)</span></tt> can be used if another
+<tt class="docutils literal"><span class="pre">step</span></tt>-size is needed. Since it&#8217;s not possible to predict the number
+of values in floating point ranges, <tt class="docutils literal"><span class="pre">Arrats#linspace(double,</span> <span class="pre">double,</span>
+<span class="pre">double)</span></tt> should be use instead.  <tt class="docutils literal"><span class="pre">Arrays#linspace</span></tt> receives an
+additional argument which denotes the number elements returned. For
+example, <tt class="docutils literal"><span class="pre">Arrays#linspace(0,</span> <span class="pre">10,</span> <span class="pre">50).reshape(10,</span> <span class="pre">5)</span></tt> creates a 10-by-5
+array.</p>
+<p>In many cases, the size of a matrix is known but its contents is not.
+Therefore, Briljant provides several ways of creating empty matrices
+with placeholder values.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// 10-by-10 array with elements set to 0</span>
+<span class="n">DoubleArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="c1">// 10-by-10-by-10 array with elements set to 1</span>
+<span class="n">DoubleArray</span> <span class="n">b</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">ones</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+
+<span class="c1">// 100 element vector with the sine of the values between 0 and 2 * PI</span>
+<span class="n">DoubleArray</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">linspace</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">Math</span><span class="o">.</span><span class="na">PI</span><span class="o">,</span> <span class="mi">100</span><span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="nl">Math:</span><span class="o">:</span><span class="n">sin</span><span class="o">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="manipulation">
+<h4>Manipulation<a class="headerlink" href="#manipulation" title="Permalink to this headline">¶</a></h4>
+<p>An already created matrix can be assigned values via the <tt class="docutils literal"><span class="pre">assign</span></tt>
+method. An example of this have already been seen above and a few more
+can be seen below. Assign modifies and returns the receiver, this makes
+it possible to reuse matrices (and hence avoid large memory
+allocations).</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">NormalDistribution</span> <span class="n">sampler</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NormalDistribution</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+<span class="n">DoubleArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+<span class="n">DoubleArray</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">rand</span><span class="o">(</span><span class="mi">3</span> <span class="o">*</span> <span class="mi">4</span><span class="o">,</span> <span class="n">sampler</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+
+<span class="c1">// Assign the values of b to a</span>
+<span class="n">a</span><span class="o">.</span><span class="na">assign</span><span class="o">(</span><span class="n">b</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+
+<span class="c1">// assigning b to a while taking the square root of the elements</span>
+<span class="n">a</span><span class="o">.</span><span class="na">assign</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="nl">Math:</span><span class="o">:</span><span class="n">sqrt</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+
+<span class="c1">// assign the values of b to a while multiplying</span>
+<span class="c1">// reshape a and return a view to x</span>
+<span class="n">DoubleArray</span> <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">assign</span><span class="o">(</span><span class="n">b</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">v</span> <span class="o">*</span> <span class="n">v</span><span class="o">).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+
+<span class="c1">// Note that the values of a are updated, but its shape is unchanged</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+
+<span class="c1">// Get a view of the first row of x</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">getRow</span><span class="o">(</span><span class="mi">0</span><span class="o">));</span>
+</pre></div>
+</div>
+<p>The code example above, would result in something like</p>
+<div class="highlight-python"><div class="highlight"><pre>array([[-0.052, -0.665,  0.741, -0.700],
+       [ 0.503, -0.818, -0.261,  1.940],
+       [-1.424,  0.896, -0.576, -0.341]] type: double)
+
+array([[  NaN,   NaN, 0.861,   NaN],
+       [0.709,   NaN,   NaN, 1.393],
+       [  NaN, 0.946,   NaN,   NaN]] type: double)
+
+array([[0.003, 0.669, 0.332],
+       [0.253, 0.802, 0.491],
+       [2.029, 0.549, 3.762],
+       [0.443, 0.068, 0.116]] type: double)
+
+array([[0.003, 0.443, 0.549, 0.491],
+       [0.253, 0.669, 0.068, 3.762],
+       [2.029, 0.802, 0.332, 0.116]] type: double)
+
+array([[0.003, 0.669, 0.332]] type: double)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Note that modification of views propagates to the original
+data. To break a copy free from its original use
+<tt class="docutils literal"><span class="pre">Array#copy()</span></tt>. By default, arrays are mutable (and hence unsafe
+to mutate in parallel).</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Matrices in Briljant are implemented in column-major order,
+which is a way of arranging multidimensional arrays in linear
+memory.</p>
+<p>In column-major order columns are stored contiguous in memory
+whereas in row-major order rows are stored contiguous in
+memory. For example, in the c programming language
+multidimensional arrays are stored in row-major order and in
+e.g., Fortran multidimensional arrays are stored in
+column-major order. An array with two rows <cite>8, 9</cite> and <cite>3, 5</cite>
+would be stored as:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="38%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+<col width="16%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Arrangement</td>
+<td>0</td>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+</tr>
+<tr class="row-even"><td>Column-major</td>
+<td>8</td>
+<td>3</td>
+<td>9</td>
+<td>5</td>
+</tr>
+<tr class="row-odd"><td>Row-major</td>
+<td>8</td>
+<td>9</td>
+<td>3</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<p>In Briljant, <cite>Array#get(int)</cite> and <cite>Array#set(int, &lt;Type&gt;)</cite> are
+expected to work as if the matrix was used in the column-major
+arrangement. Hence, for the array above <cite>get(1)</cite> should return <cite>3</cite>
+and <cite>put(2, 10)</cite> should change the <cite>9</cite> to a <cite>10</cite>.</p>
+<p class="last">Due to cache locality, it is generally faster to traverse arrays
+in column-major order, i.e. while varying the left-most indices
+fastest.</p>
+</div>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">DoubleArray</span> <span class="n">a</span> <span class="o">=</span> <span class="n">DoubleArrays</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">a</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">10</span><span class="o">);</span>
+<span class="n">a</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">9</span><span class="o">);</span>
+<span class="n">a</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">8</span><span class="o">);</span>
+
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">);</span>
+
+<span class="c1">// Iterating the array in column-major linearized order</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+  <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>As indicated in the information box, matrices are stored in
+column-major order. Hence, the output of the example is</p>
+<div class="highlight-python"><div class="highlight"><pre>array([[10.000, 9.000, 8.000],
+       [ 0.000, 0.000, 0.000],
+       [ 0.000, 0.000, 0.000]] type: double)
+
+10.0
+0.0
+0.0
+9.0
+0.0
+0.0
+8.0
+0.0
+0.0
+</pre></div>
+</div>
+</div>
+<div class="section" id="basic-operations">
+<h4>Basic operations<a class="headerlink" href="#basic-operations" title="Permalink to this headline">¶</a></h4>
+<p>Unlike most scientific languages, Java does not support user defined
+operators. Hence, addition, subtraction, multiplication and
+division are performed using named method calls. For brevity,
+these are shortened to <cite>mul</cite> (for multiplication), <cite>mmul</cite> (for
+matrix-multiplication), <cite>add</cite> (for addition) and <cite>sub</cite> (for
+subtraction).</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">As stated previously, Briljant provides several array
+implementations. The most common is provided by the
+<cite>Netlib</cite>-backend, implemented in
+<cite>org.briljantframework.array.netlib.NetlibArrayBackend</cite>.</p>
+</div>
+<p>The most common matrix routines (e.g., BLAS level 1, 2 and 3) are
+provided by the <tt class="docutils literal"><span class="pre">org.briljantframework.array.api.ArrayRoutines</span></tt> class
+and the most common linear algebra routines are provided by the
+<tt class="docutils literal"><span class="pre">org.briljantframework.linalg.api.LinearAlgebraRoutines</span></tt>. By default,
+<tt class="docutils literal"><span class="pre">Arrays</span></tt> delegates to, for the current platform chose,
+implementation. However, the user can freely choose between
+implementation by constructing an instance of a <tt class="docutils literal"><span class="pre">ArrayBackend</span></tt>. For
+example:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">org.briljantframework.array.netlib.NetlibArrayBackend</span><span class="o">;</span>
+
+<span class="c1">// Construct the array backend</span>
+<span class="n">ArrayBackend</span> <span class="n">mb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">NetlibArrayBackend</span><span class="o">();</span>
+
+<span class="c1">// Get the array factory</span>
+<span class="n">ArrayFactory</span> <span class="n">bj</span> <span class="o">=</span> <span class="n">mb</span><span class="o">.</span><span class="na">getArrayFactory</span><span class="o">();</span>
+
+<span class="c1">// Get the array routines specialized for the array factory</span>
+<span class="n">ArrayRoutines</span> <span class="n">bjr</span> <span class="o">=</span> <span class="n">mb</span><span class="o">.</span><span class="na">getArrayRoutines</span><span class="o">();</span>
+
+<span class="n">DoubleArray</span> <span class="n">x</span> <span class="o">=</span> <span class="n">bj</span><span class="o">.</span><span class="na">array</span><span class="o">(</span><span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="mi">1</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">7</span><span class="o">,</span> <span class="mi">11</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">12</span> <span class="o">}).</span><span class="na">reshape</span><span class="o">(</span><span class="mi">4</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">x</span><span class="o">);</span>
+
+<span class="c1">// Create an empty result array</span>
+<span class="n">DoubleArray</span> <span class="n">c</span> <span class="o">=</span> <span class="n">bj</span><span class="o">.</span><span class="na">doubleArray</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+
+<span class="c1">// Perform generalized matrix-matrix multiplication</span>
+<span class="c1">// while transposing the first argument</span>
+<span class="n">bjr</span><span class="o">.</span><span class="na">gemm</span><span class="o">(</span><span class="n">Op</span><span class="o">.</span><span class="na">TRANSPOSE</span><span class="o">,</span> <span class="n">Op</span><span class="o">.</span><span class="na">KEEP</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+
+<span class="kt">double</span> <span class="n">sum</span> <span class="o">=</span> <span class="n">bjr</span><span class="o">.</span><span class="na">sum</span><span class="o">(</span><span class="n">c</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">sum</span><span class="o">);</span>
+
+<span class="c1">// The example above is overly verbose</span>
+<span class="n">bjr</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">Op</span><span class="o">.</span><span class="na">TRANSPOSE</span><span class="o">,</span> <span class="n">Op</span><span class="o">.</span><span class="na">KEEP</span><span class="o">,</span> <span class="n">x</span><span class="o">,</span>  <span class="n">x</span><span class="o">);</span>
+<span class="n">bjr</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">x</span><span class="o">.</span><span class="na">transpose</span><span class="o">(),</span> <span class="n">x</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>which results in the following output</p>
+<div class="highlight-python"><div class="highlight"><pre>array([[1.000,  6.000, 11.000],
+       [5.000, 10.000,  4.000],
+       [9.000,  3.000,  8.000],
+       [2.000,  7.000, 12.000]] type: double)
+       
+array([[111.000,  97.000, 127.000],
+       [ 97.000, 194.000, 214.000],
+       [127.000, 214.000, 345.000]] type: double)
+       
+1526.0
+</pre></div>
+</div>
+<p>Note that the usage of the matrix routines closely resembles
+traditional BLAS implementations, e.g., by the use of output
+parameters (<cite>c</cite> in the example above). To simplify common use-cases,
+Briljant provides many convenience methods over the BLAS routines.</p>
+<div class="highlight-python"><div class="highlight"><pre>DoubleArray a = DoubleArray.ones(9).times(2).reshape(3, 3);
+DoubleArray b = Arrays.rand(9, new NormalDistribution(-1, 1)).reshape(3, 3);
+
+// element-wise addition
+b.plus(a);
+
+// element-wise subtraction
+b.minus(a);
+
+// element-wise multiplication
+b.times(a);
+
+// generalized matrix-matrix multiplication
+Arrays.dot(a, b)
+</pre></div>
+</div>
+</div>
+<div class="section" id="element-wise-operations">
+<h4>Element wise operations<a class="headerlink" href="#element-wise-operations" title="Permalink to this headline">¶</a></h4>
+<p>Briljant reuses a large number of element wise operations found for
+<cite>double</cite> values in Java. In Briljant, these are referred to as element
+wise functions and produces new matrices as output.</p>
+<div class="highlight-python"><div class="highlight"><pre>DoubleArray a = Arrays.linspace(0, 2 * Math.PI, 100);
+
+// create a new array with the square root of each element
+a.map(Math::sqrt);
+
+// ... and so on for various java.lang.Math methodsg
+a.map(Math::abs);
+a.map(Math::exp);
+a.map(Math::acos);
+a.map(Math::sin);
+a.map(Math::cos);
+a.map(value -&gt; Math.pow(value, 10));
+
+// ... mutate inplace
+a.apply(Math::exp)
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Remember that <tt class="docutils literal"><span class="pre">apply</span></tt> can be used to mutate the matrix.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Remember that, for example, <tt class="docutils literal"><span class="pre">Math.sqrt(-2)</span></tt> return
+<tt class="docutils literal"><span class="pre">Double.NaN</span></tt>. Complex numbers allow one to solve equations
+without real solutions. In Briljant, complex numbers are
+implemented in the <tt class="docutils literal"><span class="pre">org.apache.commons.math3.complex.Complex</span></tt>
+class and arrays of such values are implemented in
+<tt class="docutils literal"><span class="pre">org.briljantframework.array.ComplexMatrix</span></tt>. Given, <tt class="docutils literal"><span class="pre">DoubleArray</span>
+<span class="pre">x</span> <span class="pre">=</span> <span class="pre">Arrays.rand(10,</span> <span class="pre">10).times(-10)</span></tt> the element wise square root
+can be calculated (in the complex plane) as <tt class="docutils literal"><span class="pre">ComplexMatrix</span> <span class="pre">z</span> <span class="pre">=</span>
+<span class="pre">x.mapToComplex(Complex::sqrt)</span></tt></p>
+</div>
+</div>
+<div class="section" id="example">
+<h4>Example<a class="headerlink" href="#example" title="Permalink to this headline">¶</a></h4>
+<p>As an example of Briljants expressiveness, one of Julias performance
+tests is implemented below. Due to the performance overhead of copying
+an array from the JVM to Fortran, its performance is competitive, but
+not as fast as its Julia counterpart.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">()</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="kt">double</span><span class="o">[]</span> <span class="nf">randmatstat_Briljant</span><span class="o">(</span><span class="kt">int</span> <span class="n">t</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Random</span> <span class="n">random</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Random</span><span class="o">();</span>
+    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">5</span><span class="o">;</span>
+    <span class="n">DoubleArray</span> <span class="n">p</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">4</span><span class="o">);</span>
+    <span class="n">DoubleArray</span> <span class="n">q</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">,</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="n">DoubleArray</span> <span class="n">v</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="n">DoubleArray</span> <span class="n">w</span> <span class="o">=</span> <span class="n">DoubleArray</span><span class="o">.</span><span class="na">zeros</span><span class="o">(</span><span class="n">t</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+
+    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">t</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">2</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">p</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span> <span class="o">*</span> <span class="mi">3</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+
+        <span class="n">q</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+        <span class="n">q</span><span class="o">.</span><span class="na">getView</span><span class="o">(</span><span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">n</span><span class="o">).</span><span class="na">assign</span><span class="o">(</span><span class="nl">random:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">);</span>
+
+
+        <span class="n">DoubleArray</span> <span class="n">x</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">Op</span><span class="o">.</span><span class="na">TRANSPOSE</span><span class="o">,</span> <span class="n">Op</span><span class="o">.</span><span class="na">KEEP</span><span class="o">,</span> <span class="n">p</span><span class="o">,</span> <span class="n">p</span><span class="o">);</span>
+        <span class="n">DoubleArray</span> <span class="n">t</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">),</span> <span class="n">x</span><span class="o">);</span>
+        <span class="n">v</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">Bj</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="n">t</span><span class="o">));</span>
+        
+        <span class="n">x</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="na">mmul</span><span class="o">(</span><span class="n">Op</span><span class="o">.</span><span class="na">TRANSPOSE</span><span class="o">,</span> <span class="n">q</span><span class="o">,</span> <span class="n">Op</span><span class="o">.</span><span class="na">KEEP</span><span class="o">);</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">Op</span><span class="o">.</span><span class="na">TRANSPOSE</span><span class="o">,</span> <span class="n">Op</span><span class="o">.</span><span class="na">KEEP</span><span class="o">,</span> <span class="n">q</span><span class="o">,</span> <span class="n">q</span><span class="o">);</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">dot</span><span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">x</span><span class="o">),</span> <span class="n">x</span><span class="o">);</span>
+        <span class="n">w</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">Bj</span><span class="o">.</span><span class="na">trace</span><span class="o">(</span><span class="n">x</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="n">StatisticalSummary</span> <span class="n">statV</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nl">FastStatistics:</span><span class="o">:</span><span class="k">new</span><span class="o">,</span> <span class="nl">FastStatistics:</span><span class="o">:</span><span class="n">addValue</span><span class="o">);</span>
+    <span class="n">StatisticalSummary</span> <span class="n">statW</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="nl">FastStatistics:</span><span class="o">:</span><span class="k">new</span><span class="o">,</span> <span class="nl">FastStatistics:</span><span class="o">:</span><span class="n">addValue</span><span class="o">);</span>
+    <span class="kt">double</span> <span class="n">meanv</span> <span class="o">=</span> <span class="n">statV</span><span class="o">.</span><span class="na">getMean</span><span class="o">();</span>
+    <span class="kt">double</span> <span class="n">stdv</span> <span class="o">=</span> <span class="n">statV</span><span class="o">.</span><span class="na">getStandardDeviation</span><span class="o">();</span>
+    <span class="kt">double</span> <span class="n">meanw</span> <span class="o">=</span> <span class="n">statW</span><span class="o">.</span><span class="na">getMean</span><span class="o">();</span>
+    <span class="kt">double</span> <span class="n">stdw</span> <span class="o">=</span> <span class="n">statW</span><span class="o">.</span><span class="na">getStandardDeviation</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="kt">double</span><span class="o">[]{</span><span class="n">meanv</span><span class="o">,</span> <span class="n">stdv</span><span class="o">,</span> <span class="n">meanw</span><span class="o">,</span> <span class="n">stdw</span><span class="o">};</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>The <tt class="docutils literal"><span class="pre">assign</span></tt>-method is called on several views each occupying a
+5-by-5 matrix in <tt class="docutils literal"><span class="pre">p</span></tt> and <tt class="docutils literal"><span class="pre">q</span></tt>. The call to <tt class="docutils literal"><span class="pre">#collect</span></tt> above takes
+two functions, one supplying an initial value (usually a mutable
+container) and the second performs a collect call for each value in
+the matrix. Above, an instance of <tt class="docutils literal"><span class="pre">RunningStatistics</span></tt>
+(<tt class="docutils literal"><span class="pre">FastStatistics::new</span></tt>) is supplied and updated
+(<tt class="docutils literal"><span class="pre">FastStatistics::add</span></tt>) with every value in the matrix.</p>
+</div>
+</div>
+<div class="section" id="compound-operations">
+<h3>Compound operations<a class="headerlink" href="#compound-operations" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div>Some other operations?</div></blockquote>
+</div>
+</div>
+<div class="section" id="the-vector">
+<h2>The Vector<a class="headerlink" href="#the-vector" title="Permalink to this headline">¶</a></h2>
+<p>Vectors are Briljants main abstraction and resembles immutable lists
+of homogenoues values. Vectors come in six homogeneous flavors, all of
+which resides in the namespace
+<tt class="docutils literal"><span class="pre">org.briljantframework.data.vector</span></tt>. The flavors are:</p>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">DoubleVector</span></tt> for storing real number (<tt class="docutils literal"><span class="pre">double</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">ComplexVector</span></tt> for storing complex numbers.
+(<tt class="docutils literal"><span class="pre">org.briljantframework.complex.Complex</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">Intvector</span></tt> for storing integers (<tt class="docutils literal"><span class="pre">int</span></tt>).</li>
+<li><tt class="docutils literal"><span class="pre">GenericVector(Class&lt;?</span> <span class="pre">extends</span> <span class="pre">T&gt;)</span></tt> for storing values of <tt class="docutils literal"><span class="pre">T</span></tt>.</li>
+</ul>
+<p>In addition to values, each vector can store a distinct value, called
+<tt class="docutils literal"><span class="pre">NA</span></tt>, which represents the absence of a value. For the reference
+types (apart from <tt class="docutils literal"><span class="pre">Complex</span></tt> and <tt class="docutils literal"><span class="pre">Logical</span></tt>), the <tt class="docutils literal"><span class="pre">NA</span></tt>-value is
+<tt class="docutils literal"><span class="pre">null</span></tt>. To generically check for <tt class="docutils literal"><span class="pre">NA</span></tt>-values, use the
+<tt class="docutils literal"><span class="pre">Is#NA(Object)</span></tt> method.</p>
+<p>In this introduction we&#8217;ll start with a quick overview of the <tt class="docutils literal"><span class="pre">Vector</span></tt>
+data structure. For most applications in Briljant, <tt class="docutils literal"><span class="pre">Vector</span></tt> will be a
+trusty companion. To get started, we import</p>
+<div class="highlight-python"><div class="highlight"><pre>import org.briljantframework.data.vector.*;
+import org.briljantframework.functions.Aggregates;
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Primitive values vs. boxed references</p>
+<p>In Java there is a distinction between primitive types and
+reference types, where the former are the basic numerical types
+such as <tt class="docutils literal"><span class="pre">int</span></tt>, <tt class="docutils literal"><span class="pre">double</span></tt> and <tt class="docutils literal"><span class="pre">boolean</span></tt> and the latter any
+compound type. To support functions with <tt class="docutils literal"><span class="pre">Object</span></tt> parameters,
+the primitive values can be <em>boxed</em> into a reference type. This is
+a rather costly operation. To avoid the cost of boxing, Briljant
+provide specialized <tt class="docutils literal"><span class="pre">Vector</span></tt>-classes for some of the most
+commonly used primitive types: <tt class="docutils literal"><span class="pre">int</span></tt> and <tt class="docutils literal"><span class="pre">double</span></tt>. To
+illustrate the cost of boxing, consider the following two examples
+of computing the mean of 1000 element vector:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// Construct a vector of random numbers. Negative numbers are NA.</span>
+<span class="n">Vector</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nl">rand:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">,</span> <span class="mi">1000</span><span class="o">).</span><span class="na">map</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="kt">double</span> <span class="n">sqrt</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">Double</span><span class="o">.</span><span class="na">isNaN</span><span class="o">(</span><span class="n">sqrt</span><span class="o">)</span> <span class="o">?</span> <span class="n">Na</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">:</span> <span class="n">sqrt</span><span class="o">;</span>
+<span class="o">});</span>
+
+<span class="c1">// Example 1 RunningStatistics stats = new RunningStatistics();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">size</span><span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="kt">double</span> <span class="n">v</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="k">if</span> <span class="o">(!</span><span class="n">Is</span><span class="o">.</span><span class="na">NA</span><span class="o">(</span><span class="n">v</span><span class="o">))</span> <span class="o">{</span>
+        <span class="n">stats</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kt">double</span> <span class="n">avg</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="na">getMean</span><span class="o">();</span>
+
+<span class="c1">// Example 2</span>
+<span class="kt">double</span> <span class="n">avg</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Aggregates</span><span class="o">.</span><span class="na">mean</span><span class="o">());</span>
+
+<span class="c1">// Example 3</span>
+<span class="kt">double</span> <span class="n">avg</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="na">mean</span><span class="o">();</span>
+</pre></div>
+</div>
+<p class="last">Above, Example 1 (which takes 0.1 ms) is roughly 20 times faster
+on a recent machine than Example 2 (which takes 2 ms). Example 2,
+however, is vastly more readable and should be preferred in all
+but hot inner loops. Note that all of the performance overhead of
+Example 2 does not come from boxing, but rather from the use of
+lambdas. If we change <tt class="docutils literal"><span class="pre">b.getAsDouble(i)</span></tt>, to <tt class="docutils literal"><span class="pre">get(Double.class,</span>
+<span class="pre">i)</span></tt>, the performance difference is only a factor of two. For many
+common operations, the <tt class="docutils literal"><span class="pre">Vector</span></tt>-interface provides a default
+implementation and, optionally optimized implementations. For
+<tt class="docutils literal"><span class="pre">double</span></tt>-values, the <tt class="docutils literal"><span class="pre">mean()</span></tt>-method (Example 3) has
+equivalent performance to Example 1, and should be <strong>preferred</strong>.</p>
+</div>
+<div class="section" id="creating-vectors">
+<h3>Creating vectors<a class="headerlink" href="#creating-vectors" title="Permalink to this headline">¶</a></h3>
+<p>Since vectors in Briljant are immutable (which is a great way of
+supporting simple concurrent programming), new vectors are created
+using a <tt class="docutils literal"><span class="pre">Vector.Builder</span></tt>-object.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">vb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">IntVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span>
+   <span class="n">vb</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+
+<span class="n">Vector</span> <span class="n">zeroToNine</span> <span class="o">=</span> <span class="n">vb</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p>In the example above, we create a new <tt class="docutils literal"><span class="pre">IntVector</span></tt> with the values
+from 0 to 9.</p>
+<p>Every vector has a type, accessible from <tt class="docutils literal"><span class="pre">Vector#getType()</span></tt>. The
+returned type object contains information about, for example, the
+underlying type and how to copy, compare and identify <tt class="docutils literal"><span class="pre">NA</span></tt>-values.</p>
+<p>Perhaps the simplest, and most common, way of creating a vector is to
+call <tt class="docutils literal"><span class="pre">Vector.of(data)</span></tt>. Here, <tt class="docutils literal"><span class="pre">data</span></tt> can be:</p>
+<ul class="simple">
+<li>A <tt class="docutils literal"><span class="pre">T[]</span></tt></li>
+<li>a <tt class="docutils literal"><span class="pre">Supplier&lt;T&gt;</span></tt>; or</li>
+<li>an <tt class="docutils literal"><span class="pre">Iterable&lt;T&gt;</span></tt></li>
+</ul>
+<p>The type of vector is inferred from the argument to <tt class="docutils literal"><span class="pre">#of</span></tt>. For
+example:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="c1">// i is an IntVector</span>
+<span class="n">Vector</span> <span class="n">i</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">5</span><span class="o">);</span>
+
+<span class="c1">// d is a DoubleVector</span>
+<span class="n">Vector</span> <span class="n">d</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mf">1.1</span><span class="o">,</span> <span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">);</span>
+
+<span class="c1">// n is a GenericVector(Number.class)</span>
+<span class="n">Vector</span> <span class="n">n</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mf">1.1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">);</span>
+
+<span class="c1">// data is a GenericVector(String.class)</span>
+<span class="n">Vector</span> <span class="n">data</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">,</span> <span class="s">&quot;World&quot;</span><span class="o">);</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>Missing values</p>
+<p class="last">In Briljant, <tt class="docutils literal"><span class="pre">NA</span></tt> denote the absence of a value. The particular
+value denoting <tt class="docutils literal"><span class="pre">NA</span></tt> changes based on vector type. For the
+reference types (e.g., <tt class="docutils literal"><span class="pre">GenericVector</span></tt> and <tt class="docutils literal"><span class="pre">ComplexVector</span></tt>),
+<tt class="docutils literal"><span class="pre">NA</span></tt> is the same as <tt class="docutils literal"><span class="pre">null</span></tt>. For the primitive types, however,
+<tt class="docutils literal"><span class="pre">NA</span></tt> is represented differently depending on type. For the
+<tt class="docutils literal"><span class="pre">IntVector</span></tt>, <tt class="docutils literal"><span class="pre">Integer.MAX_VALUE</span></tt> denote <tt class="docutils literal"><span class="pre">NA</span></tt> and for the
+<tt class="docutils literal"><span class="pre">DoubleVector</span></tt> a value in the <tt class="docutils literal"><span class="pre">NaN</span></tt>-range
+(<tt class="docutils literal"><span class="pre">0x7ff0000000000009L</span></tt>) denote <tt class="docutils literal"><span class="pre">NA</span></tt>. To simplify
+<tt class="docutils literal"><span class="pre">NA</span></tt>-checking, use <tt class="docutils literal"><span class="pre">Is.NA(...)</span></tt>.</p>
+</div>
+<p>To create a vector with missing values, <tt class="docutils literal"><span class="pre">Vector.Builder#addNA</span></tt> can
+be used. For example:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">vb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="k">if</span><span class="o">(</span><span class="n">i</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">vb</span><span class="o">.</span><span class="na">addNA</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">vb</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">vb</span><span class="o">.</span><span class="na">build</span><span class="o">();</span> <span class="c1">// [NA, 1, NA, 3, NA, 5, NA, 7, NA, 9]</span>
+<span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="kc">null</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span> <span class="c1">// [1, NA, 3, NA, 4, NA]</span>
+</pre></div>
+</div>
+<p>A vector acts very similar to a <tt class="docutils literal"><span class="pre">List&lt;T&gt;</span></tt> with the difference that
+it natively handles primitive types (using <tt class="docutils literal"><span class="pre">#getAsInt(int)</span></tt> and
+<tt class="docutils literal"><span class="pre">#getAsDouble(int)</span></tt>).</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mf">1.1</span><span class="o">,</span> <span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">,</span> <span class="mf">1.4</span><span class="o">,</span> <span class="mf">1.5</span><span class="o">);</span>
+
+<span class="c1">// No boxing!</span>
+<span class="kt">double</span> <span class="n">i</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span> <span class="c1">// 1.1</span>
+
+<span class="kt">double</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Aggregates</span><span class="o">.</span><span class="na">mean</span><span class="o">());</span>
+
+<span class="c1">// Get a List&lt;T&gt; view</span>
+<span class="n">List</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">l</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">);</span> <span class="c1">// [1.1, 1.2, 1.3, 1.4, 1.5]</span>
+
+<span class="n">v</span> <span class="k">instanceof</span> <span class="n">DoubleVector</span> <span class="c1">// true</span>
+
+<span class="n">Vector</span> <span class="n">nv</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;Hello&quot;</span><span class="o">,</span> <span class="s">&quot;World&quot;</span><span class="o">);</span>
+<span class="n">nv</span> <span class="k">instanceof</span> <span class="n">GenericVector</span> <span class="c1">// true</span>
+
+<span class="c1">// We can get double values from GenericVectors as well...</span>
+<span class="kt">double</span> <span class="n">i</span> <span class="o">=</span> <span class="n">nv</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="mi">0</span><span class="o">);</span>
+
+<span class="c1">// however, the value is NA</span>
+<span class="n">Is</span><span class="o">.</span><span class="na">NA</span><span class="o">(</span><span class="n">i</span><span class="o">);</span> <span class="c1">// true</span>
+
+<span class="n">String</span> <span class="n">s</span> <span class="o">=</span> <span class="n">nv</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Collectors</span><span class="o">.</span><span class="na">joining</span><span class="o">(</span><span class="s">&quot; &quot;</span><span class="o">));</span> <span class="c1">// &quot;Hello World&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="transforming-vectors">
+<h3>Transforming vectors<a class="headerlink" href="#transforming-vectors" title="Permalink to this headline">¶</a></h3>
+<p>A common operation in statistical languages is the ability to
+transform vectors, for example by performing some element-wise
+operations. In Briljant, the simplest way to transform a vector is by
+using the <tt class="docutils literal"><span class="pre">Vector#map</span></tt> method which takes as arguments the
+type of value we are interested in transforming and a lambda that
+perform the operation. For example:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="nl">rand:</span><span class="o">:</span><span class="n">nextGaussian</span><span class="o">,</span> <span class="mi">100</span><span class="o">);</span>
+<span class="n">UnaryOperator</span><span class="o">&lt;</span><span class="n">Double</span><span class="o">&gt;</span> <span class="n">abs</span> <span class="o">=</span> <span class="nl">Math:</span><span class="o">:</span><span class="n">abs</span><span class="o">;</span>
+
+<span class="n">Vector</span> <span class="n">absSqrt</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">abs</span><span class="o">.</span><span class="na">andThen</span><span class="o">(</span><span class="nl">Math:</span><span class="o">:</span><span class="n">sqrt</span><span class="o">));</span>
+<span class="n">Vector</span> <span class="n">pow</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">v</span> <span class="o">-&gt;</span> <span class="n">Math</span><span class="o">.</span><span class="na">pow</span><span class="o">(</span><span class="n">v</span><span class="o">,</span> <span class="mi">3</span><span class="o">));</span>
+
+<span class="c1">// &#39;clip&#39; the values in the -1 and 1 range</span>
+<span class="n">Vector</span> <span class="n">ne</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Transformations</span><span class="o">.</span><span class="na">clip</span><span class="o">(-</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">));</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>If performance is a concern, consider performing the operation in a
+<tt class="docutils literal"><span class="pre">for</span></tt>-loop:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">size</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">size</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">sqrt</span><span class="o">(</span><span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="n">i</span><span class="o">))));</span>
+<span class="o">}</span>
+
+<span class="n">Vector</span> <span class="n">absSqrt</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">();</span>
+</pre></div>
+</div>
+<p class="last">This is, of course, more verbose but perform vastly better since it
+avoids unboxing. Many operations, such as <tt class="docutils literal"><span class="pre">clip</span></tt>, is therefore
+also provided as library functions.</p>
+</div>
+</div>
+<div class="section" id="aggregating-vectors">
+<h3>Aggregating vectors<a class="headerlink" href="#aggregating-vectors" title="Permalink to this headline">¶</a></h3>
+<p>We have already seen examples of aggregating operations before, e.g.,
+for computing the mean of a vector. We have, however, not yet seen how
+they work. Imaging that we are interested in transforming a vector of
+<tt class="docutils literal"><span class="pre">String</span></tt> into an <tt class="docutils literal"><span class="pre">ArrayList&lt;String&gt;</span></tt>, clearly it would be
+impossible to used the <tt class="docutils literal"><span class="pre">transform</span></tt> function. So, do we have to rely
+on the tedious and sometimes error-prone <tt class="docutils literal"><span class="pre">for</span></tt>-loop?</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="s">&quot;A&quot;</span><span class="o">,</span> <span class="s">&quot;B&quot;</span><span class="o">,</span> <span class="s">&quot;Cat&quot;</span><span class="o">,</span> <span class="s">&quot;Dog&quot;</span><span class="o">,</span> <span class="s">&quot;E&quot;</span><span class="o">,</span> <span class="s">&quot;F&quot;</span><span class="o">);</span>
+<span class="n">ArrayList</span> <span class="n">strings</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">strings</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>What if we want to collect our <tt class="docutils literal"><span class="pre">String</span></tt>-vector into a single string?</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">v</span><span class="o">.</span><span class="na">size</span><span class="o">(),</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">builder</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">v</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Fortunately not! Instead, Briljant exposes an <tt class="docutils literal"><span class="pre">Vector#collect</span></tt>
+function which is a very general method for the purposes outlined
+above. For example:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">strings</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span>
+    <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nl">ArrayList:</span><span class="o">:</span><span class="k">new</span><span class="o">,</span> <span class="nl">ArrayList:</span><span class="o">:</span><span class="n">add</span><span class="o">);</span>
+
+<span class="n">StringBuilder</span> <span class="n">builder</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span>
+    <span class="n">String</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="nl">StringBuilder:</span><span class="o">:</span><span class="k">new</span><span class="o">,</span> <span class="nl">StringBuilder:</span><span class="o">:</span><span class="n">append</span><span class="o">);</span>
+
+<span class="kt">double</span> <span class="n">mean</span> <span class="o">=</span> <span class="n">vector</span><span class="o">.</span><span class="na">aggregate</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">Aggregates</span><span class="o">.</span><span class="na">mean</span><span class="o">());</span>
+</pre></div>
+</div>
+<p>Collectors (i.e. aggregate operations) are, however, more general than
+that! The <tt class="docutils literal"><span class="pre">collect</span></tt>-method of <tt class="docutils literal"><span class="pre">Vector</span></tt> (and as we will see later,
+data frames and grouped data frames) accepts as arguments a type <tt class="docutils literal"><span class="pre">E</span></tt>
+(in the example above <tt class="docutils literal"><span class="pre">String.class</span></tt>) and, either a <tt class="docutils literal"><span class="pre">Supplier&lt;T&gt;</span></tt>
+and a <tt class="docutils literal"><span class="pre">BiConsumer&lt;T,</span> <span class="pre">E&gt;</span></tt>, or an instance of <tt class="docutils literal"><span class="pre">Collector&lt;T,</span> <span class="pre">R,</span> <span class="pre">C&gt;</span></tt>
+where each type-argument in order denotes the type of value, the
+return type and the mutable container type. The <tt class="docutils literal"><span class="pre">Collector&lt;T,</span> <span class="pre">R,</span>
+<span class="pre">C&gt;</span></tt>, is a mutable reduction operator that accumulates values into a
+mutable container. We can specify an <tt class="docutils literal"><span class="pre">Collector</span></tt> by four functions:</p>
+<ul class="simple">
+<li>creation of the result container</li>
+<li>modification of the result container</li>
+<li>merging of result containers</li>
+<li>and finalization of the result container</li>
+</ul>
+<p>Since <tt class="docutils literal"><span class="pre">Collectors</span></tt> are very general, operations such as <tt class="docutils literal"><span class="pre">repeat</span></tt>,
+<tt class="docutils literal"><span class="pre">each</span></tt>, <tt class="docutils literal"><span class="pre">isNA</span></tt> and <tt class="docutils literal"><span class="pre">test</span></tt> can be implemented.</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">briljantframework</span><span class="o">.</span><span class="na">functions</span><span class="o">.</span><span class="na">Aggregates</span><span class="o">.*;</span>
+
+<span class="n">Vector</span> <span class="n">v</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+
+<span class="c1">// Repeat the vector n times</span>
+<span class="n">Vector</span> <span class="n">v2Times</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">repeat</span><span class="o">(</span><span class="n">IntVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">::</span><span class="k">new</span><span class="o">,</span> <span class="mi">2</span><span class="o">));</span>
+<span class="c1">// [1,2,3,4,NA,1,2,3,4,NA]</span>
+
+<span class="c1">// Repeat each element n times</span>
+<span class="n">Vector</span> <span class="n">each2times</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">each</span><span class="o">(</span><span class="n">IntVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">::</span><span class="k">new</span><span class="o">,</span> <span class="mi">2</span><span class="o">));</span>
+<span class="c1">//[1,1,2,2,3,3,4,4,NA,NA]</span>
+
+<span class="c1">// Indicator of which values are NA</span>
+<span class="n">Vector</span> <span class="n">nas</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">isNA</span><span class="o">());</span>
+<span class="c1">// [FALSE, FALSE, FALSE, FALSE, TRUE]</span>
+
+<span class="c1">// all non-na values larger than 2</span>
+<span class="n">Vector</span> <span class="n">largerThan2</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="na">collect</span><span class="o">(</span><span class="n">test</span><span class="o">(</span><span class="n">v</span> <span class="o">-&gt;</span> <span class="o">!</span><span class="n">Is</span><span class="o">.</span><span class="na">NA</span><span class="o">(</span><span class="n">v</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="o">));</span>
+<span class="c1">// [FALSE, FALSE, TRUE, TRUE, TRUE]</span>
+</pre></div>
+</div>
+<p>Most of the <tt class="docutils literal"><span class="pre">Collector``s</span> <span class="pre">in</span> <span class="pre">``Aggregates</span></tt> naturally handles missing
+values by either exluding them (in the case of e.g., <tt class="docutils literal"><span class="pre">mean()</span></tt>) and
+propagate them (in the case of e.g., <tt class="docutils literal"><span class="pre">repeat</span></tt>). When implementing
+collectors, one should take care to correctly (and consistently)
+handle missing values.</p>
+</div>
+<div class="section" id="combining-vectors">
+<h3>Combining vectors<a class="headerlink" href="#combining-vectors" title="Permalink to this headline">¶</a></h3>
+<p>Another line of common operations to perform with vectors is to
+combine them into new vectors, e.g., adding, concatenating or
+multiplying them.</p>
+<p>Using the straight forward approach we could addition two vector by
+just using a simple <tt class="docutils literal"><span class="pre">for</span></tt>-loop:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mf">1.1</span><span class="o">,</span> <span class="mf">1.2</span><span class="o">,</span> <span class="mf">1.3</span><span class="o">);</span>
+<span class="n">Vector</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="mf">2.0</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+
+<span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DoubleVector</span><span class="o">.</span><span class="na">Builder</span><span class="o">();</span>
+<span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">a</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">a</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">+</span> <span class="n">b</span><span class="o">.</span><span class="na">getAsDouble</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+<span class="o">}</span>
+<span class="n">Vector</span> <span class="n">c</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="na">build</span><span class="o">();</span> <span class="c1">// [3.1, 3.2, 3.3]</span>
+</pre></div>
+</div>
+<p>The example above is both rather verbose and in some cases
+error-prone, e.g., what if <tt class="docutils literal"><span class="pre">a</span></tt> and <tt class="docutils literal"><span class="pre">b</span></tt> are of unequal length?  To
+simplify and generalize the use-case outlined above, Briljant provides
+<tt class="docutils literal"><span class="pre">Vector#combine</span></tt>. For example, the example could be written as:</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">combine</span><span class="o">(</span><span class="n">Double</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="o">(</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">);</span>
+<span class="c1">// [3.1, 3.2, 3.3]</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Indexed vectors</p>
+<p class="last">Since vectors can be indexed (using the <tt class="docutils literal"><span class="pre">Vector#setIndex</span></tt>)
+method, the first example only works for <cite>int</cite>-indexed vectors. To
+combine over locations (i.e. physical access locations) use
+<tt class="docutils literal"><span class="pre">Vector#loc()</span></tt>.</p>
+</div>
+<p>Now, what if one of the vector contains <tt class="docutils literal"><span class="pre">NA</span></tt> values?</p>
+<div class="highlight-java"><div class="highlight"><pre><span class="n">Vector</span> <span class="n">a</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+<span class="n">Vector</span> <span class="n">b</span> <span class="o">=</span> <span class="n">Vector</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="kc">null</span><span class="o">,</span> <span class="mi">3</span><span class="o">);</span>
+<span class="n">Vector</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">combine</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">Combine</span><span class="o">.</span><span class="na">add</span><span class="o">());</span> <span class="c1">// (or Vector c = a.add(b);)</span>
+<span class="c1">// [2, 4, null, null]</span>
+
+<span class="n">Vector</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">combine</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">Combine</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="mi">1</span><span class="o">));</span>
+<span class="c1">// [2, 4, 4, 5]</span>
+
+<span class="n">Vector</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="na">combine</span><span class="o">(</span><span class="n">Integer</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">Na</span><span class="o">.</span><span class="na">ignore</span><span class="o">((</span><span class="n">x</span><span class="o">,</span> <span class="n">y</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="o">))</span>
+<span class="c1">// [2, 4, null, null]</span>
+</pre></div>
+</div>
+<p><tt class="docutils literal"><span class="pre">Combine#add(Number)</span></tt> returns a <tt class="docutils literal"><span class="pre">BiFunction&lt;Number,</span> <span class="pre">Number,</span>
+<span class="pre">Number&gt;</span></tt> wrapped in a <tt class="docutils literal"><span class="pre">Na#ignore</span></tt>, which - as the name
+implies - ignores <tt class="docutils literal"><span class="pre">NA</span></tt> values by keeping the <tt class="docutils literal"><span class="pre">NA</span></tt>-value from
+either vector.</p>
+</div>
+<div class="section" id="calculations-with-missing-values">
+<h3>Calculations with missing values<a class="headerlink" href="#calculations-with-missing-values" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="the-dataframe">
+<h2>The DataFrame<a class="headerlink" href="#the-dataframe" title="Permalink to this headline">¶</a></h2>
+<p>Data frames are Briljants most</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#getting-started">Getting started</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#the-array">The array</a><ul>
+<li><a class="reference internal" href="#creation">Creation</a></li>
+<li><a class="reference internal" href="#manipulation">Manipulation</a></li>
+<li><a class="reference internal" href="#basic-operations">Basic operations</a></li>
+<li><a class="reference internal" href="#element-wise-operations">Element wise operations</a></li>
+<li><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#compound-operations">Compound operations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-vector">The Vector</a><ul>
+<li><a class="reference internal" href="#creating-vectors">Creating vectors</a></li>
+<li><a class="reference internal" href="#transforming-vectors">Transforming vectors</a></li>
+<li><a class="reference internal" href="#aggregating-vectors">Aggregating vectors</a></li>
+<li><a class="reference internal" href="#combining-vectors">Combining vectors</a></li>
+<li><a class="reference internal" href="#calculations-with-missing-values">Calculations with missing values</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#the-dataframe">The DataFrame</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">Welcome to Briljant framework&#8217;s documentation!</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/tutorial.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="index.html" title="Welcome to Briljant framework’s documentation!"
+             >previous</a> |</li>
+        <li><a href="index.html">Briljant 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2015, Isak Karlsson.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.3.
+    </div>
+  </body>
+</html>

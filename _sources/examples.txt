@@ -1,0 +1,22 @@
+
+Array
+=====
+
+Examples
+--------
+
+Assign
+******
+
+.. code-block:: java
+                
+   DoubleArray arr = Arrays.newVector(new double[]{1,2,3,4});
+   DoubleArray zero = Arrays.newDoubleArray(4);
+   zero.assign(arr);
+
+produces
+   
+::
+   
+   array([1.000, 2.000, 3.000, 4.000])
+   
