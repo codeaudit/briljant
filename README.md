@@ -1,3 +1,8 @@
+
+# This project has moved to [GitLab](https://gitlab.com/briljant/briljant)
+
+The code here is left as a monument.
+
 # Briljant Framework
 
 ![Build status](https://travis-ci.org/briljant/briljant.svg?branch=0.2) [![Join the chat at https://gitter.im/briljant/briljant](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/briljant/briljant?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) 
